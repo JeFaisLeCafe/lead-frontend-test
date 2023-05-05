@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { BASE_API_URL } from "./links";
 import axios from "axios";
-import { ShipupOrder } from "./type";
+import { ShipupOrders } from "./types";
+import Order from "./components/Order";
 
 const key = import.meta.env.VITE_API_KEY;
 
@@ -10,22 +11,25 @@ axios.defaults.baseURL = BASE_API_URL;
 axios.defaults.headers.common["Authorization"] = key;
 
 function App() {
-  const [data, setData] = useState<ShipupOrder>();
+  const [ordersData, setOrdersData] = useState<ShipupOrders>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const apiResponse = await axios.get<ShipupOrder>("orders", {
+      const apiResponse = await axios.get<ShipupOrders>("orders", {
         params: { order_number: "UK1876YH08_2" }
       });
-      setData(apiResponse.data);
+      setOrdersData(apiResponse.data);
     };
     fetchData();
   }, []);
 
   return (
     <div className="container">
-      <p>Data for order #UK1876YH08_2</p>
-      <p>{JSON.stringify(data)}</p>
+      <h2>Order Info</h2>
+
+      {ordersData?.data.map((order) => (
+        <Order order={order} />
+      ))}
     </div>
   );
 }
