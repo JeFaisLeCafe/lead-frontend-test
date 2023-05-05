@@ -2,6 +2,7 @@ import "./index.css";
 import { ShipupOrdersDatum, Trackers } from "../../types";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 interface OrderProps {
   order: ShipupOrdersDatum;
@@ -27,10 +28,10 @@ const Order = ({ order }: OrderProps) => {
 
       <p>Trackers:</p>
       {trackers?.data.map((tracker) => (
-        <ul>
-          <a>
+        <ul key={tracker.id}>
+          <Link to={`/tracker/${tracker.tracking_number}`}>
             <p>{tracker.tracking_number}</p>
-          </a>
+          </Link>
         </ul>
       ))}
     </div>

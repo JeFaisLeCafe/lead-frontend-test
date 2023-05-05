@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import "./App.css";
-import { BASE_API_URL } from "./links";
+import "./index.css";
+
 import axios from "axios";
-import { ShipupOrders } from "./types";
-import Order from "./components/Order";
+import Order from "../../components/Order";
+import { BASE_API_URL } from "../../links";
+import { ShipupOrders } from "../../types";
 
 const key = import.meta.env.VITE_API_KEY;
 
 axios.defaults.baseURL = BASE_API_URL;
 axios.defaults.headers.common["Authorization"] = key;
 
-function App() {
+function Orders() {
   const [ordersData, setOrdersData] = useState<ShipupOrders>();
 
   useEffect(() => {
@@ -28,10 +29,10 @@ function App() {
       <h2>Order Info</h2>
 
       {ordersData?.data.map((order) => (
-        <Order order={order} />
+        <Order key={order.id} order={order} />
       ))}
     </div>
   );
 }
 
-export default App;
+export default Orders;
